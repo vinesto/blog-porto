@@ -11,6 +11,7 @@ chai.use(chaiHttp)
 
 describe('User', function () {
     this.timeout(5000000)
+    
     beforeEach(function (done) {
         mongoose.connect(process.env.MONGO_TESTING_URI, { useNewUrlParser: true }).then(function(){
             User.create({
@@ -28,7 +29,7 @@ describe('User', function () {
     })
 
     afterEach(function (done) {
-        User.collection.drop()
+        User.remove({})
             .then(function () {
                 done()
             })

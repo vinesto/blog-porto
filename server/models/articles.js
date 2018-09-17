@@ -17,9 +17,9 @@ const articleSchema = new Schema({
     imageUrl:{
         type:String
     },
-    author:{
-        type:Schema.Types.ObjectId,
+    authorId:{
         ref:"User",
+        type:Schema.Types.ObjectId,
         required: true
     },
     comment:[{
@@ -31,3 +31,5 @@ const articleSchema = new Schema({
 })
 
 const Article = mongoose.model('Article', articleSchema)
+
+module.exports = Article
