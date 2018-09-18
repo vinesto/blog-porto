@@ -47,7 +47,7 @@ const login = function (req, res) {
                     name: dataUser.name,
                     email: dataUser.email
                 }, process.env.JWT_KEY)
-            let decodedPass = bcrypt.compare(req.body.password, dataUser.password)
+            let decodedPass = bcrypt.compareSync(req.body.password, dataUser.password)
             if (decodedPass) {
                 res.status(200).json({ message:"Login success", token })
             } else {
