@@ -72,7 +72,7 @@ describe('Article', function () {
             })
             .set('token', token)
             .end(function (err, res) {
-                console.log(res.body, 'booodyyyy');
+                // console.log(res.body, 'booodyyyy');
                 articleId = res.body.data._id
                 expect(res).to.have.status(200)
                 expect(res.body).to.be.a('object')
@@ -93,9 +93,6 @@ describe('Article', function () {
             })
     })
 
-    // it('PUT /articles/:id should be able to update article by article id an return message', function(done){
-
-    // })
 
     it('GET /articles should return array of object articles', function (done) {
         chai.request(url)
@@ -125,11 +122,34 @@ describe('Article', function () {
             })
     })
 
+    // it('PUT /articles/:id should be able to update article by article id an return message', function (done) {
+
+    //     chai.request(url)
+    //         .put(`/articles/${articleId}`)
+    //         .set('token', token)
+    //         .send({
+    //             title: "new title",
+    //             description: "new description",
+    //             content: "new content",
+    //         })
+    //         .end(function (err, res) {
+    //             console.log(res.body, 'ppppp');
+
+    //             expect(res).to.have.status(200)
+    //             expect(res.body).to.be.a('object')
+    //             // expect(res.body.message).to.equal('Articles found')
+    //             expect(res.body.data).to.be.a('object')
+    //             // expect(res.body.data).to.have.property('_id'))
+
+    //             done()
+    //         })
+    // })
+
     it('GET /articles/:id should return of object article by article id', function (done) {
         chai.request(url)
             .get(`/articles/${articleId}`)
             .end(function (err, res) {
-                console.log(res.body, 'ppppp');
+                // console.log(res.body, 'ppppp');
 
                 expect(res).to.have.status(200)
                 expect(res.body).to.be.a('object')
