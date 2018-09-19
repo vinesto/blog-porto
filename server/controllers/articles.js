@@ -2,12 +2,13 @@ const Article = require('../models/articles')
 const User = require('../models/users')
 
 const createArticle = function (req, res) {
-    let { title, description, content, imageUrl } = req.body
+    let { title, description, content, imageUrl, category } = req.body
     Article.create({
         title: title,
         description: description,
         content: content,
         imageUrl: imageUrl,
+        category: category,
         authorId: req.user.id
     })
         .then(function (newArticle) {
@@ -47,6 +48,8 @@ const deleteArticle = function (req, res) {
 
 const getAllArticle = function (req, res) {
     Article.find({})
+    .populate('authorId')
+    .populate('comment')
         .then(function (articles) {
             if (articles) {
                 res.status(200).json({
@@ -70,6 +73,8 @@ const getAllArticle = function (req, res) {
 const getOneArticle = function (req, res) {
 
     Article.findOne({ _id: req.params.id })
+    .populate('authorId')
+    .populate('comment')
         .then(function (article) {
             if (article) {
                 res.status(200).json({
@@ -93,6 +98,8 @@ const getOneArticle = function (req, res) {
 const getMyArticle = function (req, res) {
 
     Article.find({ authorId: req.user.id })
+    .populate('authorId')
+    .populate('comment')
         .then(function (articles) {
             if (articles) {
                 res.status(200).json({
@@ -113,7 +120,7 @@ const getMyArticle = function (req, res) {
         })
 }
 
-const updateArticle = function () {
+const updateArticle = function (req,res) {
     let { title, description, content } = req.body
     let objForUpdate = {}
 
@@ -141,8 +148,8 @@ const updateArticle = function () {
         })
         .catch(function (err) {
             res.status(400).json({
-                message:"Update failed",
-                error:err.message
+                message: "Update failed",
+                error: err.message
             })
         })
 

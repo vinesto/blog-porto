@@ -17,6 +17,9 @@ const articleSchema = new Schema({
     imageUrl:{
         type:String
     },
+    category:{
+        type:String
+    },
     authorId:{
         ref:"User",
         type:Schema.Types.ObjectId,
