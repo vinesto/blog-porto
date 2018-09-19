@@ -12,11 +12,30 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
-      children:[
+      children: [
         {
-          path:'/addArticle',
-          name:'addArticle',
-          component:() => import('./components/AddArticle.vue')
+          path: '/addArticle',
+          name: 'addArticle',
+          component: () => import('./components/AddArticle.vue')
+        },
+        {
+          path: '/article/:id',
+          name: 'detailArticle',
+          component: () => import('./components/DetailArticle.vue')
+        },
+        {
+          path: '/delete/article/:id',
+          name: 'deleteArticle',
+        },
+        {
+          path: '/edit/article/:id',
+          name: 'editArticle',
+          component: () => import('./components/EditArticle.vue')
+        },
+        {
+          path:'/myarticle',
+          name:'myArticle',
+          component:() => import('./components/MyArticle.vue'),
         }
       ]
     },
@@ -32,6 +51,6 @@ export default new Router({
       path: '/navbar',
       name: 'navbar',
       component: () => import('./components/NavBar.vue')
-    }
+    },
   ]
 })

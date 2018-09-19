@@ -35,7 +35,10 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  methods: {}
+};
 </script>
 
 <style>

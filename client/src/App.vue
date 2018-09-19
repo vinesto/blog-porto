@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <nav-bar v-on:check-token="token=$event" v-on:change="isLogin"/>
+      <nav-bar v-on:check-token="isLogin"/>
     </div>
-    <router-view v-bind:token="token"/>
+    <router-view v-bind:tokenfromapp="tokenApp"/>
     <Footer/>
   </div>
 </template>
@@ -19,13 +19,14 @@ export default {
   },
   data: function() {
     return {
-      token: false,
-      
+      tokenApp: false,
     };
   },
   methods: {
-    isLogin() {
-      this.token = true;
+    isLogin(value) {
+      console.log(value,'masuuk app islogin');
+      
+      this.tokenApp = value;
     }
   },
   created() {

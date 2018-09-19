@@ -10,8 +10,8 @@
           <h1 class="my-4">List Articles</h1>
 
           <!-- Blog Post -->
-          <router-view v-if="token" v-bind:token="token"></router-view>
-              <list-article/>
+          <router-view v-if="tokenHome" v-bind:token="tokenHome" v-on:new-article="getNewArticle"></router-view>
+              <list-article :test="newArticle"/>
         </div>
 
         <!-- Sidebar Widgets Column -->
@@ -21,14 +21,14 @@
           <!-- Categories Widget -->
           <list-category/>
           <!-- Side Widget -->
-          <div class="card my-4" v-if="token" v-bind:token="token">
-            <router-link to='/addArticle'>
-            <h4 class="btn card-header title">Click here for Add Article</h4>
+          <div class="card my-4" v-if="tokenHome" v-bind:token="tokenHome">
+            <router-link to='/addArticle' >
+              <h4 class="btn card-header title">Click here for Add Article</h4>
             </router-link>
           </div>
 
           <!-- Side Widget -->
-          <my-article v-if="token"/>
+          <my-article v-if="tokenHome" v-bind:articles="articles" v-bind:newArticle="newArticle" v-bind:token="tokenHome"/>
 
         </div>
 
@@ -41,16 +41,16 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import ListCategory from '@/components/ListCategory.vue'
-import ListArticle from '@/components/ListArticle.vue'
-import SearchArticle from '@/components/SearchArticle.vue'
-import MyArticle from '@/components/MyArticle.vue'
-import AddArticle from '@/components/AddArticle.vue'
+import HelloWorld from "@/components/HelloWorld.vue";
+import ListCategory from "@/components/ListCategory.vue";
+import ListArticle from "@/components/ListArticle.vue";
+import SearchArticle from "@/components/SearchArticle.vue";
+import MyArticle from "@/components/MyArticle.vue";
+import AddArticle from "@/components/AddArticle.vue";
 
 export default {
-  props: ['token'],
-  name: 'home',
+  props: ["tokenfromapp", "test"],
+  name: "home",
   components: {
     HelloWorld,
     ListCategory,
@@ -59,27 +59,47 @@ export default {
     MyArticle,
     AddArticle
   },
-  data:function(){
-    return{
-      token:false
+  data: function() {
+    return {
+      tokenHome: false,
+      articles:'',
+      // myArticles:'',
+      newArticle: "",
+      fetchData: false
+    };
+  },
+  methods: {
+    getNewArticle(value) {
+      this.newArticle = value;
+      // this.fetchData = true
     }
   },
-  // methods:{
-  //   isLogin(){
-  //     this.token = true
-  //   },
-  // },
-  // watch:{
-  //   token:function(){
-  //   }
-  // },
-  // created() {
-  //   let checkToken = localStorage.getItem("token")
-  //   if(checkToken){
-  //     this.token = true
-  //   }else{
-  //     this.token = false
-  //   }
-  // },
-}
+  watch: {
+    test: function(newtest, oldtest) {
+      if (newtest) {
+        console.log("masuuuk watch test", this.test);
+      } else {
+        console.log("masuuk old test", this.test);
+      }
+    },
+    tokenfromapp:function(newtoken,oldtoken){
+      console.log(this.tokenfromapp,'masuk ke home watch tokenfromapp');
+      
+      if(newtoken){
+        this.tokenHome = true
+      }else if(oldtoken){
+        this.tokenHome = false
+      }
+    }
+  },
+  created() {
+    let checkToken = localStorage.getItem("token")
+    if(checkToken){
+      this.tokenHome = true
+    }else{
+      this.tokenHome = false
+    }
+    // this.getNewArticle()
+  }
+};
 </script>

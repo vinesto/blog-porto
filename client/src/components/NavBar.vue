@@ -1,7 +1,9 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
+        <router-link to="/">
         <a class="navbar-brand text-white" href="#"><i class="fas fa-newspaper"></i></a>
+        </router-link>
         <a class="navbar-brand text-white" href="#">Blog</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -150,9 +152,9 @@ export default {
     },
     logout(){
       console.log('masuuk logout')
-      this.isLogout = true
-      localStorage.clear()
+      // this.isLogout = true
       this.isLogin = false
+      localStorage.clear()
     }
   },
   created(){
@@ -164,17 +166,20 @@ export default {
   watch:{
     isLogin:function(newLogin,oldLogin){
       if(newLogin){
-        // console.log('sssss',newLogin);
         this.token = true
         this.$emit('check-token',this.token)
-      }
-    },
-    isLogout:function(newLogout,oldLogout){
-      if(newLogout){
+        // console.log('sssss',newLogin);
+      }else if(oldLogin){
         this.token = false
         this.$emit('check-token',this.token)
       }
-    }
+    },
+    // isLogout:function(newLogout,oldLogout){
+    //   if(newLogout){
+    //     this.token = false
+    //     this.$emit('check-token',this.token)
+    //   }
+    // }
   }
 };
 </script>
