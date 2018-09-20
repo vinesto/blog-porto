@@ -15,10 +15,10 @@
                 <label for="validationDefault01">Content:</label>
                 <input type="text" class="form-control" id="validationDefault01" placeholder="Article content" v-model="addContent" required>
             </div>
-            <!-- <div class="form-group custom-file">
+            <div class="form-group custom-file">
             <input type="file" class="custom-file-input" id="customFile">
             <label class="custom-file-label" for="customFile">Choose file</label>
-            </div>                   -->
+            </div>                  
             <button class="btn btn-primary" type="submit" v-on:click="addArticle">Submit</button>
             <router-link to='/'>
             <button class="btn btn-secondary" type="button">Cancel</button>
@@ -58,14 +58,9 @@ export default {
               }
           })
           .then(({data})=>{
-            //   console.log(self.articles,'new articles');
               this.newArticle = data.data
-            //   self.nrticles = data.data
-            console.log('success add', this);
-            
-              this.$emit('new-article', this.newArticle)
-
-            //   self.$router.replace('/')
+              this.$router.push('/')
+            //   this.$emit('new-article', this.newArticle)
           })
           .catch(function(err) {
               console.log(err);

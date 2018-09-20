@@ -30,13 +30,9 @@ export default new Router({
         {
           path: '/edit/article/:id',
           name: 'editArticle',
+          props:true,
           component: () => import('./components/EditArticle.vue')
         },
-        {
-          path:'/myarticle',
-          name:'myArticle',
-          component:() => import('./components/MyArticle.vue'),
-        }
       ]
     },
     {

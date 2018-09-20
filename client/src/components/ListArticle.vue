@@ -25,11 +25,11 @@ export default {
   name: "ListArticle",
   data: function() {
     return {
-        articles:[],
-        fetchData:false
+      articles: [],
+      fetchData: false
     };
   },
-  props: ["token",'test'],
+  props: ["token", "propsarticle", "delprops"],
   methods: {
     getAllArticles() {
       let self = this;
@@ -39,9 +39,8 @@ export default {
       })
         .then(function({ data }) {
           self.articles = data.data;
-            console.log(self.articles,'selfarticles');
+          console.log(self.articles, "selfarticles");
           // self.$router.push('/')
-          
         })
         .catch(function(err) {
           console.log(err.message);
@@ -52,15 +51,19 @@ export default {
     }
   },
   created() {
-      this.getAllArticles()
+    this.getAllArticles();
   },
-  watch:{
-      test:function(newData,oldData){
-          if(newData){
-              this.getAllArticles()
-            //   self.$emit("listarticle", self.articles);
-          }
+  watch: {
+    propsarticle: function(newList, oldList) {
+      if (newList) {
+        this.getAllArticles();
       }
+    },
+    delprops:function(newDel,oldDel){
+      if(newDel){
+        this.getAllArticles()
+      }
+    }
   }
 };
 </script>

@@ -10,8 +10,8 @@
           <h1 class="my-4">List Articles</h1>
 
           <!-- Blog Post -->
-          <router-view v-if="tokenHome" v-bind:token="tokenHome" v-on:new-article="getNewArticle"></router-view>
-              <list-article :test="newArticle"/>
+          <router-view v-if="tokenHome" v-bind:token="tokenHome"></router-view>
+              <list-article v-bind:propsarticle="listArticle" v-bind:delprops="checkDelete"/>
         </div>
 
         <!-- Sidebar Widgets Column -->
@@ -28,7 +28,7 @@
           </div>
 
           <!-- Side Widget -->
-          <my-article v-if="tokenHome" v-bind:articles="articles" v-bind:newArticle="newArticle" v-bind:token="tokenHome"/>
+          <my-article v-if="tokenHome" v-bind:token="tokenHome" v-bind:propsarticle="listArticle" v-on:delete-article="isDelete" v-bind:delprops="checkDelete" v-bind:edit-article="getEditArticle"/>
 
         </div>
 
@@ -62,35 +62,46 @@ export default {
   data: function() {
     return {
       tokenHome: false,
-      articles:'',
-      // myArticles:'',
+      // articles:'',
+      editArticle:"",
       newArticle: "",
-      fetchData: false
+      fetchData: false,
+      listArticle: false,
+      deleteArticle: false,
+      checkDelete:false,
     };
   },
   methods: {
     getNewArticle(value) {
       this.newArticle = value;
       // this.fetchData = true
+    },
+    isDelete(value){
+      this.deleteArticle = value
+    },
+    getEditArticle(value){
+      this.editArticle = value
+      console.log(this.editArticles,'aaaaa');
     }
   },
   watch: {
-    test: function(newtest, oldtest) {
-      if (newtest) {
-        console.log("masuuuk watch test", this.test);
-      } else {
-        console.log("masuuk old test", this.test);
-      }
+    "$route"(to, from){
+      this.listArticle = to
     },
     tokenfromapp:function(newtoken,oldtoken){
-      console.log(this.tokenfromapp,'masuk ke home watch tokenfromapp');
-      
       if(newtoken){
         this.tokenHome = true
       }else if(oldtoken){
         this.tokenHome = false
       }
+    },
+    deleteArticle:function(newDelete, oldDelete){
+      if(newDelete){
+        this.checkDelete = true
+      }
     }
+
+
   },
   created() {
     let checkToken = localStorage.getItem("token")
@@ -99,7 +110,6 @@ export default {
     }else{
       this.tokenHome = false
     }
-    // this.getNewArticle()
   }
 };
 </script>

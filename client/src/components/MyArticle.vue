@@ -33,13 +33,14 @@ import moment from "moment";
 import EditArticle from "@/components/EditArticle.vue";
 
 export default {
-  props: ["token"],
+  props: ["token","propsarticle","delprops"],
   name: "MyArticle",
   data: function() {
     return {
       myArticles: "",
       message: "",
-      article:{}
+      article:{},
+      isDelete:false
     };
   },
   methods: {
@@ -54,6 +55,7 @@ export default {
       })
         .then(function({ data }) {
           self.myArticles = data.data;
+        //   self.$emit('my-article', self.myArticles)
         })
         .catch(function(err) {
           console.log(err.message);
@@ -71,34 +73,29 @@ export default {
         .then(function(result) {
           self.message = "delete success";
           console.log("delete success");
+          self.isDelete = true
+          self.$emit('delete-article', self.isDelete)
         })
         .catch(function(err) {
           console.log(err.message);
           self.message = "delete failed";
         });
     },
-    // getOneArticle() {
-    //   let self = this;
-    //   axios({
-    //     method: "GET",
-    //     url: `http://localhost:3000/articles/${this.$route.params.id}`,
-    //     headers: {
-    //       token: localStorage.getItem("token")
-    //     }
-    //   })
-    //     .then(function({ data }) {
-    //       self.article = data.data;
-    //     })
-    //     .catch(function(err) {
-    //       console.log(err.message);
-    //     });
-    // },
     convertDate(input) {
       return moment(input).format("MMMM Do YYYY");
     }
   },
   watch: {
-    myArticles: function() {}
+      propsarticle:function(newList,oldList){
+          if(newList){
+              this.getMyArticle()
+          }
+      },
+      delprops:function(newDelete,oldDelete){
+          if(newDelete){
+              this.getMyArticle()
+          }
+      }
   },
   created() {
     this.getMyArticle();
