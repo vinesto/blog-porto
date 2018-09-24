@@ -45,28 +45,36 @@ const createComment = function (req, res) {
 const deleteComment = function (req, res) {
     Article.findOneAndUpdate({
         _id:req.params.articleId,
-        authorId:req.user.id
     },{
         $pull:{
             comment: req.params.commentId
         }
     })
     .then(function(article){
-        Comment.findOneAndRemove({
-            _id:req.params.commentId,
-            userId:req.userId
-        })
-        .then(function(comment){
-            res.status(200).json({
-                message:"delete comment success"
+        if(article){
+            // console.log('masuuk article');
+            Comment.findOneAndRemove({
+                _id:req.params.commentId,
+                userId:req.user.id
             })
-        })
-        .catch(function(err){
-            res.status(400).json({
-                message:"delete comment failed",
-                error:err.message
+            .then(function(comment){
+                if(comment){
+                    res.status(200).json({
+                        message:"delete comment success"
+                    })
+                }else{
+                    res.status(201).json({
+                        message:"you are not authorized to access this"
+                    })
+                }
             })
-        })
+            .catch(function(err){
+                res.status(400).json({
+                    message:"delete comment failed",
+                    error:err.message
+                })
+            })
+        }
     })
     .catch(function(err){
         res.status(500).json({
