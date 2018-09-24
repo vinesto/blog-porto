@@ -39,8 +39,6 @@ export default {
       })
         .then(function({ data }) {
           self.articles = data.data;
-          console.log(self.articles, "selfarticles");
-          // self.$router.push('/')
         })
         .catch(function(err) {
           console.log(err.message);
@@ -59,11 +57,9 @@ export default {
         this.getAllArticles();
       }
     },
-    delprops:function(newDel,oldDel){
-      if(newDel){
+    delprops:function(){
         this.getAllArticles()
       }
-    }
   }
 };
 </script>

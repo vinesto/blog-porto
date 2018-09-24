@@ -2,9 +2,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <router-link to="/">
-        <a class="navbar-brand text-white" href="#"><i class="fas fa-newspaper"></i></a>
+          <a class="navbar-brand text-white"><i class="fas fa-newspaper"></i></a>
         </router-link>
-        <a class="navbar-brand text-white" href="#">Blog</a>
+        <router-link to="/">
+          <a class="navbar-brand text-white">Blog</a>
+        </router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,24 +56,31 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <!-- loginform -->
-                  <form class="px-4 py-3">
+                  <form class="px-4 py-3" onSubmit="return false">
                     <div class="form-group">
                       <label for="exampleDropdownFormEmail1">Name</label>
-                      <input type="email" class="form-control" placeholder="name">
+                      <input type="text" class="form-control" placeholder="name" v-model="registerName" required>
                     </div>
                     <div class="form-group">
                       <label for="exampleDropdownFormEmail1">Email address</label>
-                      <input type="email" class="form-control" placeholder="email@example.com">
+                      <input type="email" class="form-control" placeholder="email@example.com" v-model="registerEmail" required>
                     </div>
                     <div class="form-group">
                       <label for="exampleDropdownFormPassword1">Password</label>
-                      <input type="password" class="form-control" placeholder="Password">
+                      <input type="password" class="form-control" placeholder="Password" v-model="registerPassword" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Sign up</button>
+                    <div class="row">
+                      <div class="container">
+                        <button type="submit" class="btn btn-primary" v-on:click="register">Sign up</button>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="isMessage">
+                           message
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      </div>
+                      </div>
                   </form>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">New around here? Sign up</a>
-                  <a class="dropdown-item" href="#">Forgot password?</a>
             <!-- loginform -->
                 </div>
               </div>
@@ -97,6 +106,7 @@ export default {
       registerName:'',
       registerEmail:'',
       registerPassword:'',
+      isMessage:false,
       message:'',
       arrMessages:[],
       isLogin:false,
@@ -139,11 +149,16 @@ export default {
         }
       })
       .then(function(result){
-        console.log(result);
-        self.message = "Register Success"
-        self.registerName = ''
-        self.registerEmail = ''
-        self.registerPassword = ''
+        // console.log(result);
+        if(result){
+          self.isMessage = true
+          self.message = "Register Success"
+          self.registerName = ''
+          self.registerEmail = ''
+          self.registerPassword = ''
+        }else{
+          self.isMessage = false
+        }
       })
       .catch(function(err){
         self.message = "Register Failed"
@@ -155,6 +170,7 @@ export default {
       // this.isLogout = true
       this.isLogin = false
       localStorage.clear()
+      this.$router.push('/')
     }
   },
   created(){

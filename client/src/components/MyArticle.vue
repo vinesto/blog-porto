@@ -40,7 +40,7 @@ export default {
       myArticles: "",
       message: "",
       article:{},
-      isDelete:false
+      isDelete:''
     };
   },
   methods: {
@@ -73,8 +73,8 @@ export default {
         .then(function(result) {
           self.message = "delete success";
           console.log("delete success");
-          self.isDelete = true
-          self.$emit('delete-article', self.isDelete)
+          self.isDelete = result
+          self.$emit('delete-article', result)
         })
         .catch(function(err) {
           console.log(err.message);
@@ -91,10 +91,8 @@ export default {
               this.getMyArticle()
           }
       },
-      delprops:function(newDelete,oldDelete){
-          if(newDelete){
-              this.getMyArticle()
-          }
+      isDelete:function(){
+        this.getMyArticle()
       }
   },
   created() {

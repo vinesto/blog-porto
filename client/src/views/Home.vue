@@ -10,7 +10,7 @@
           <h1 class="my-4">List Articles</h1>
 
           <!-- Blog Post -->
-          <router-view v-if="tokenHome" v-bind:token="tokenHome"></router-view>
+          <router-view v-if="tokenHome" v-bind:token="tokenHome" ></router-view>
               <list-article v-bind:propsarticle="listArticle" v-bind:delprops="checkDelete"/>
         </div>
 
@@ -28,7 +28,7 @@
           </div>
 
           <!-- Side Widget -->
-          <my-article v-if="tokenHome" v-bind:token="tokenHome" v-bind:propsarticle="listArticle" v-on:delete-article="isDelete" v-bind:delprops="checkDelete" v-bind:edit-article="getEditArticle"/>
+          <my-article v-if="tokenHome" v-bind:token="tokenHome" v-bind:propsarticle="listArticle" v-on:delete-article="getDelete" v-bind:edit-article="getEditArticle"/>
 
         </div>
 
@@ -67,8 +67,10 @@ export default {
       newArticle: "",
       fetchData: false,
       listArticle: false,
-      deleteArticle: false,
+      deleteArticle: '',
       checkDelete:false,
+      commentArticle:'',
+      checkComment:false,
     };
   },
   methods: {
@@ -76,12 +78,15 @@ export default {
       this.newArticle = value;
       // this.fetchData = true
     },
-    isDelete(value){
+    getDelete(value){
       this.deleteArticle = value
     },
     getEditArticle(value){
       this.editArticle = value
       console.log(this.editArticles,'aaaaa');
+    },
+    getCommentArticle(value){
+      this.commentArticle = value
     }
   },
   watch: {
@@ -95,9 +100,18 @@ export default {
         this.tokenHome = false
       }
     },
-    deleteArticle:function(newDelete, oldDelete){
-      if(newDelete){
+    deleteArticle:function(){
+      if(this.checkDelete){
+        this.checkDelete = false
+      }else{
         this.checkDelete = true
+      }
+    },
+    commentArticle:function(){
+      if(this.checkComment){
+        this.checkComment = false
+      }else{
+        this.checkComment = true
       }
     }
 
