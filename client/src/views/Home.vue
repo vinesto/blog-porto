@@ -11,15 +11,13 @@
 
           <!-- Blog Post -->
           <router-view v-if="tokenHome" v-bind:token="tokenHome" ></router-view>
-              <list-article v-bind:propsarticle="listArticle" v-bind:delprops="checkDelete"/>
+              <list-article v-bind:propsarticle="listArticle" v-bind:delprops="checkDelete" @data-allarticle="dataallarticles=$event" :resultsearch="getarticles"/>
         </div>
 
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
           <!-- Search Widget -->
-          <search-article/>
-          <!-- Categories Widget -->
-          <list-category/>
+          <search-article :datasearch="dataallarticles" :datastatus="status" v-on:data-after-search="getarticles=$event"/>
           <!-- Side Widget -->
           <div class="card my-4" v-if="tokenHome" v-bind:token="tokenHome">
             <router-link to='/addArticle' >
@@ -71,6 +69,9 @@ export default {
       checkDelete:false,
       commentArticle:'',
       checkComment:false,
+      status:false,
+      dataallarticles:'',
+      getarticles:''
     };
   },
   methods: {

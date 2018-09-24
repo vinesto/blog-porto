@@ -29,7 +29,7 @@ export default {
       fetchData: false
     };
   },
-  props: ["token", "propsarticle", "delprops"],
+  props: ["token", "propsarticle", "delprops", "resultsearch"],
   methods: {
     getAllArticles() {
       let self = this;
@@ -39,6 +39,7 @@ export default {
       })
         .then(function({ data }) {
           self.articles = data.data;
+          self.$emit("data-allarticle", self.articles);
         })
         .catch(function(err) {
           console.log(err.message);
@@ -57,9 +58,16 @@ export default {
         this.getAllArticles();
       }
     },
-    delprops:function(){
-        this.getAllArticles()
+    delprops: function() {
+      this.getAllArticles();
+    },
+    resultsearch: function(newData, oldData) {
+      if (newData) {
+        this.articles = newData;
+      } else {
+        this.articles = oldData
       }
+    },
   }
 };
 </script>
